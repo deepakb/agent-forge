@@ -1,0 +1,6 @@
+node_modules
+.turbo
+dist
+# Add any other files or directories that should not be tracked
+logs/
+*.log
