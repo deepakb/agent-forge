@@ -28,3 +28,5 @@ dist
 
 # Coverage reports
 coverage
+
+.npm-cache
