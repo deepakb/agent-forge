@@ -1,5 +1,5 @@
 import { BaseWorkflowBuilder } from '@core/workflow/workflow-builder';
-import { WorkflowStep, WorkflowContext } from '@core/workflow/types';
+import { WorkflowStep, WorkflowContext, Workflow } from '@core/workflow/types';
 import { ResearchAgent, ResearchContext } from '../agents/research-agent';
 
 export class ResearchWorkflow {

@@ -15,7 +15,7 @@ export interface ResearchContext extends Context {
 export class ResearchAgent extends BaseAgent {
   private llmProvider: LLMProvider;
   private searchTool: SearchTool;
-  private logger: Logger;
+  protected logger: Logger;
 
   constructor(
     llmProvider: LLMProvider, 
@@ -23,6 +23,7 @@ export class ResearchAgent extends BaseAgent {
     logger: Logger
   ) {
     super({
+      id: 'research-agent',
       name: 'ResearchAgent',
       description: 'Conducts research on topics using LLM and search tools'
     });
@@ -46,7 +47,15 @@ export class ResearchAgent extends BaseAgent {
   }
 
   async conductResearch(topic: string, perspective: string): Promise<SearchResult[]> {
-    return await this.searchTool.execute(`${topic} ${perspective}`);
+    const result = await this.searchTool.execute({
+      query: `${topic} ${perspective}`
+    });
+    
+    if (!result.success || !result.data) {
+      throw result.error || new Error('Search failed');
+    }
+    
+    return result.data;
   }
 
   async synthesizeContent(
@@ -85,5 +94,25 @@ export class ResearchAgent extends BaseAgent {
     );
     
     return context;
+  }
+
+  async start(): Promise<void> {
+    if (this.isRunning) {
+      this.logger.log('WARN', `Agent ${this.name} is already running`);
+      return;
+    }
+
+    this.logger.log('INFO', `Starting research agent ${this.name}`);
+    this.isRunning = true;
+  }
+
+  async stop(): Promise<void> {
+    if (!this.isRunning) {
+      this.logger.log('WARN', `Agent ${this.name} is not running`);
+      return;
+    }
+
+    this.logger.log('INFO', `Stopping research agent ${this.name}`);
+    this.isRunning = false;
   }
 }

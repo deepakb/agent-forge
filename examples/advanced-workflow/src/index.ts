@@ -12,7 +12,7 @@ async function main() {
   
   const llmProvider = new OpenAIProvider({
     apiKey: process.env.OPENAI_API_KEY || '',
-    model: 'gpt-4',
+    model: 'gpt-4o',
     maxTokens: 1000
   }, logger);
   
