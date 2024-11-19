@@ -1,4 +1,4 @@
-import { LogManager } from '@agent-forge/core/logging';
+import { LogManager } from '@core/logging';
 import { BaseWorkflowEngine } from '@core/workflow/workflow-engine';
 import { OpenAIProvider } from '@llm-providers/providers/openai';
 import { SearchTool } from './tools/search-tool';
