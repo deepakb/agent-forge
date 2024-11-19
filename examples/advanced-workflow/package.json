@@ -1,0 +1,22 @@
+{
+  "name": "advanced-workflow-example",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsup --config tsup.config.ts",
+    "start": "node dist/index.js",
+    "dev": "tsup --config tsup.config.ts --watch"
+  },
+  "dependencies": {
+    "@agent-forge/core": "workspace:*",
+    "@agent-forge/llm-providers": "workspace:*",
+    "@agent-forge/tools": "workspace:*",
+    "@agent-forge/utils": "workspace:*",
+    "axios": "^1.7.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3"
+  }
+} 
