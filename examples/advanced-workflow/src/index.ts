@@ -5,6 +5,10 @@ import { SearchTool } from './tools/search-tool';
 import { ResearchAgent } from './agents/research-agent';
 import { ResearchWorkflow } from './workflows/research-workflow';
 
+// Add environment variables loading at the top
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 async function main() {
   // Initialize components
   const logger = LogManager.createLogger('console');
@@ -12,9 +16,12 @@ async function main() {
   
   const llmProvider = new OpenAIProvider({
     apiKey: process.env.OPENAI_API_KEY || '',
-    model: 'gpt-4o',
+    model: 'gpt-3.5-turbo',
     maxTokens: 1000
   }, logger);
+  
+  // Initialize the provider before using it
+  await llmProvider.initialize();
   
   const searchTool = new SearchTool(process.env.SEARCH_API_KEY || '');
   
