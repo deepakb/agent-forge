@@ -3,7 +3,9 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   entry: ['src/index.ts'],
   format: ['cjs'],
-  dts: true,
+  dts: {
+    resolve: true,
+  },
   splitting: false,
   sourcemap: true,
   clean: true,
@@ -16,10 +18,15 @@ export default defineConfig({
     '@agent-forge/tools',
     '@agent-forge/utils'
   ],
-  onSuccess: 'node dist/index.js',
   esbuildOptions(options) {
     options.footer = {
       js: 'if (module.exports.default) module.exports = module.exports.default;'
+    };
+    options.alias = {
+      '@core': '@agent-forge/core',
+      '@llm-providers': '@agent-forge/llm-providers',
+      '@tools': '@agent-forge/tools',
+      '@utils': '@agent-forge/utils'
     };
   }
 });

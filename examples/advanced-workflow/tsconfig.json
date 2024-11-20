@@ -4,6 +4,8 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "baseUrl": ".",
+    "composite": true,
+    "declaration": true,
     "paths": {
       "@core/*": ["../../packages/core/src/*"],
       "@llm-providers/*": ["../../packages/llm-providers/src/*"],
