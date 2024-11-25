@@ -1,11 +1,13 @@
 import type { Options, Format } from 'tsup';
 const { ConfigManager } = require('@utils/config');
 
-// Define supported formats as a const enum for type safety
-const enum BuildFormat {
-  CJS = 'cjs',
-  ESM = 'esm'
-}
+// Define formats as string literals instead of const enum
+const BuildFormat = {
+  CJS: 'cjs',
+  ESM: 'esm'
+} as const;
+
+type BuildFormat = typeof BuildFormat[keyof typeof BuildFormat];
 
 // Configuration interface for better type safety
 interface BuildConfig extends Options {
@@ -82,7 +84,12 @@ function createConfig(options: Partial<BuildConfig> = {}): BuildConfig {
   return config;
 }
 
+// Export for CommonJS
 module.exports = {
-  baseConfig,
-  createConfig
+  createConfig,
+  BuildFormat,
+  formats
 };
+
+// Export types
+export type { BuildConfig, BuildFormat };
