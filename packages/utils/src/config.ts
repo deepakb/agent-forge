@@ -7,10 +7,10 @@ export class ConfigManager {
 
   private constructor() {
     this.config = {
-      environment: process.env.NODE_ENV as 'development' | 'staging' | 'production' || ENVIRONMENTS.DEVELOPMENT,
-      debug: process.env.DEBUG === 'true',
-      timeout: parseInt(process.env.TIMEOUT || '5000'),
-      retryAttempts: parseInt(process.env.RETRY_ATTEMPTS || '3')
+      environment: process.env['NODE_ENV'] as 'development' | 'staging' | 'production' || ENVIRONMENTS.DEVELOPMENT,
+      debug: process.env['DEBUG'] === 'true',
+      timeout: parseInt(process.env['TIMEOUT'] || '5000'),
+      retryAttempts: parseInt(process.env['RETRY_ATTEMPTS'] || '3')
     };
   }
 

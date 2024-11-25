@@ -2,8 +2,8 @@
 export { BaseError } from './base-error';
 
 // Export error strategies
+export type { ErrorStrategy } from './error-strategy';
 export {
-  ErrorStrategy,
   LogErrorStrategy,
   NotifyErrorStrategy,
   RetryErrorStrategy,

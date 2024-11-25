@@ -12,15 +12,15 @@ export interface ToolContext {
 
 export interface ToolResult<T = any> {
   success: boolean;
-  data?: T;
-  error?: Error;
-  metadata?: Record<string, unknown>;
+  data?: T | undefined;
+  error?: Error | undefined;
+  metadata?: Record<string, unknown> | undefined;
 }
 
 export interface Tool {
   readonly name: string;
-  readonly description?: string;
-  readonly category?: string;
+  readonly description: string | undefined;
+  readonly category: string | undefined;
   
   execute(context: ToolContext): Promise<ToolResult>;
   validate?(context: ToolContext): Promise<boolean>;

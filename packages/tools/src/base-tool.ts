@@ -3,8 +3,8 @@ import { Logger } from '@core/logging';
 
 export abstract class BaseTool implements Tool {
   public readonly name: string;
-  public readonly description?: string;
-  public readonly category?: string;
+  public readonly description: string | undefined;
+  public readonly category: string | undefined;
   protected logger: Logger;
 
   constructor(config: ToolConfig, logger: Logger) {
@@ -19,15 +19,18 @@ export abstract class BaseTool implements Tool {
   protected async createSuccessResult<T>(data: T, metadata?: Record<string, unknown>): Promise<ToolResult<T>> {
     return {
       success: true,
-      data,
-      metadata
+      data: data,
+      error: undefined,
+      metadata: metadata
     };
   }
 
   protected async createErrorResult(error: Error): Promise<ToolResult> {
     return {
       success: false,
-      error
+      data: undefined,
+      error: error,
+      metadata: undefined
     };
   }
 }

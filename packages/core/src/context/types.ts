@@ -13,7 +13,7 @@ export interface StateListener {
 export interface StateTransition {
   from: string;
   to: string;
-  action?: () => void;
+  action: (() => void) | undefined;
 }
 
 export interface ContextManager {

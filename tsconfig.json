@@ -14,11 +14,6 @@
     "sourceMap": true,
     "composite": true,
     "incremental": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "allowJs": false,
     "baseUrl": ".",
     "paths": {
       "@agent-forge/core": ["packages/core/src"],
@@ -31,24 +26,9 @@
       "@utils/*": ["packages/utils/src/*"]
     },
     "isolatedModules": true,
-    "verbatimModuleSyntax": true,
     "noEmitOnError": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitThis": true,
-    "useUnknownInCatchVariables": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "allowUnreachableCode": false,
     "skipDefaultLibCheck": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "alwaysStrict": true,
-    "allowArbitraryExtensions": true,
-    "customConditions": ["node", "import", "require"],
-    "preserveSymlinks": true
+    "allowUnreachableCode": false
   },
   "exclude": [
     "node_modules",

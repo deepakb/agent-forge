@@ -7,7 +7,7 @@ export interface ConfigOptions {
 
 export interface ValidationResult {
   isValid: boolean;
-  errors?: string[];
+  errors?: string[] | undefined;
 }
 
 export interface TransformOptions {

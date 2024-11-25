@@ -17,7 +17,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "allowUnreachableCode": false,
     "sourceMap": true,
-    "importHelpers": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "preserveConstEnums": true,
