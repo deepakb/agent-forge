@@ -1,9 +1,30 @@
 {
-    "extends": "../../tsconfig.json",
+    "extends": "../tsconfig.base.json",
     "compilerOptions": {
+      "rootDir": "./src",
       "outDir": "./dist",
-      "composite": true
+      "baseUrl": ".",
+      "composite": true,
+      "tsBuildInfoFile": "./dist/.tsbuildinfo",
+      "paths": {
+        "@utils/*": ["./src/*"]
+      }
     },
-    "include": ["src/**/*"]
-  }
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "src/**/*.json"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist",
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      "**/*.stories.ts",
+      "**/__tests__/*",
+      "**/coverage",
+      "**/*.d.ts"
+    ],
+    "references": []
+}
   

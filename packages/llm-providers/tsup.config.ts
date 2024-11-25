@@ -1,20 +1,13 @@
-import { defineConfig } from "tsup";
+import { createConfig } from '../tsup.config.base';
+import path from 'path';
 
-export default defineConfig({
-  entry: ["src/index.ts"],
-  format: ["esm", "cjs"],
-  dts: true,
-  splitting: true,
-  sourcemap: true,
-  clean: true,
-  treeshake: true,
-  outDir: 'dist',
-  external: ['axios'],
-  noExternal: ['@agent-forge/*'],
-  onSuccess: 'tsc --emitDeclarationOnly --declaration',
+export default createConfig({
+  name: '@agent-forge/llm-providers',
+  noExternal: ['@agent-forge/core', '@agent-forge/utils'],
   esbuildOptions(options) {
-    options.footer = {
-      js: 'if (module.exports.default) module.exports = module.exports.default;'
+    options.alias = {
+      '@core': path.resolve(__dirname, '../core/src'),
+      '@utils': path.resolve(__dirname, '../utils/src')
     };
   }
 });

@@ -1,19 +1,7 @@
-import { defineConfig } from "tsup";
+import { createConfig } from '../tsup.config.base';
 
-export default defineConfig({
-  entry: ["src/index.ts"],
-  format: ["cjs", "esm"],
-  dts: true,
-  splitting: true,
-  sourcemap: true,
-  clean: true,
-  treeshake: true,
-  outDir: "dist",
-  noExternal: ["@agent-forge/*"],
-  onSuccess: "tsc --emitDeclarationOnly --declaration",
-  esbuildOptions(options) {
-    options.footer = {
-      js: 'if (module.exports.default) module.exports = module.exports.default;'
-    };
-  }
+export default createConfig({
+  name: '@agent-forge/utils',
+  noExternal: [],
+  splitting: false
 });
