@@ -1,5 +1,5 @@
-import { BaseWorkflowBuilder } from '@core/workflow/workflow-builder';
-import { WorkflowStep, WorkflowContext, Workflow } from '@core/workflow/types';
+import { BaseWorkflowBuilder } from '@agent-forge/core';
+import { WorkflowStep, WorkflowContext, Workflow } from '@agent-forge/core';
 import { ResearchAgent, ResearchContext } from '../agents/research-agent';
 
 export class ResearchWorkflow {
@@ -48,10 +48,13 @@ export class ResearchWorkflow {
     return {
       name: 'Synthesize Content',
       execute: async (context: ResearchContext) => {
+        if (!context.outline || !context.searchResults) {
+          throw new Error('Missing outline or search results');
+        }
         context.finalContent = await this.agent.synthesizeContent(
           context.topic,
-          context.outline || '',
-          context.searchResults || []
+          context.outline,
+          context.searchResults
         );
         return context;
       }
@@ -59,16 +62,17 @@ export class ResearchWorkflow {
   }
 
   buildWorkflow(topic: string): Workflow {
-    const builder = new BaseWorkflowBuilder();
+    const builder = new BaseWorkflowBuilder<ResearchContext>();
     
-    return builder
+    builder
       .setName('Research Workflow')
       .setDescription(`Research workflow for topic: ${topic}`)
-      .setContext({ topic } as ResearchContext)
+      .setContext({ topic })
       .addStep(this.createOutlineStep())
       .addStep(this.createPerspectivesStep())
       .addStep(this.createResearchStep())
-      .addStep(this.createSynthesisStep())
-      .build();
+      .addStep(this.createSynthesisStep());
+    
+    return builder.build();
   }
 }

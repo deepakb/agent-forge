@@ -41,16 +41,21 @@ export class OpenAIProvider extends BaseLLMProvider {
     try {
       this.validateInitialization();
       
-      const response = await this.client.post('/completions', {
+      const response = await this.client.post('/chat/completions', {
         model: this.config.model,
-        prompt: request.prompt,
+        messages: [
+          {
+            role: 'user',
+            content: request.prompt
+          }
+        ],
         max_tokens: request.options?.maxTokens || this.config.maxTokens || 100,
         temperature: request.options?.temperature || this.config.temperature || 0.7,
         stop: request.options?.stop
       });
 
       return {
-        text: response.data.choices[0].text.trim(),
+        text: response.data.choices[0].message.content.trim(),
         usage: {
           promptTokens: response.data.usage.prompt_tokens,
           completionTokens: response.data.usage.completion_tokens,

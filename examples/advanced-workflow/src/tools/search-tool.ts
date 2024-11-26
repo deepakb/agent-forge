@@ -1,4 +1,4 @@
-import { Tool, ToolContext, ToolResult } from '@tools/types';
+import { Tool, ToolContext, ToolResult } from '@agent-forge/tools';
 import axios from 'axios';
 import dotenv from 'dotenv';
 

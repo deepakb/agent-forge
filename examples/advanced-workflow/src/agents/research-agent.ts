@@ -1,7 +1,7 @@
-import { BaseAgent } from '@core/agent/base-agent';
-import { Context } from '@core/context/types';
-import { Logger } from '@core/logging';
-import { LLMProvider } from '@llm-providers/types';
+import { BaseAgent } from '@agent-forge/core';
+import { Context } from '@agent-forge/core';
+import { Logger } from '@agent-forge/core';
+import { LLMProvider } from '@agent-forge/llm-providers';
 import { SearchTool, SearchResult } from '../tools/search-tool';
 
 export interface ResearchContext extends Context {

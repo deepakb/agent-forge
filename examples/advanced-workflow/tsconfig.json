@@ -1,20 +1,26 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
     "outDir": "./dist",
-    "rootDir": "./src",
     "baseUrl": ".",
-    "composite": true,
-    "declaration": true,
     "paths": {
-      "@core/*": ["../../packages/core/src/*"],
-      "@llm-providers/*": ["../../packages/llm-providers/src/*"],
-      "@tools/*": ["../../packages/tools/src/*"],
-      "@utils/*": ["../../packages/utils/src/*"],
+      "@agent-forge/core": ["../../packages/core/src"],
+      "@agent-forge/llm-providers": ["../../packages/llm-providers/src"],
+      "@agent-forge/tools": ["../../packages/tools/src"],
+      "@agent-forge/utils": ["../../packages/utils/src"],
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*",
+    "../../packages/*/src/**/*"
+  ],
   "exclude": ["node_modules", "dist"],
   "references": [
     { "path": "../../packages/core" },
@@ -22,4 +28,4 @@
     { "path": "../../packages/tools" },
     { "path": "../../packages/utils" }
   ]
-} 
+}

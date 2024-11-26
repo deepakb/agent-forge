@@ -1,6 +1,6 @@
-import { LogManager } from '@core/logging';
-import { BaseWorkflowEngine } from '@core/workflow/workflow-engine';
-import { OpenAIProvider } from '@llm-providers/providers/openai';
+import { LogManager } from '@agent-forge/core';
+import { BaseWorkflowEngine } from '@agent-forge/core';
+import { OpenAIProvider } from '@agent-forge/llm-providers';
 import { SearchTool } from './tools/search-tool';
 import { ResearchAgent } from './agents/research-agent';
 import { ResearchWorkflow } from './workflows/research-workflow';
