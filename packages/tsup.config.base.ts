@@ -1,39 +1,39 @@
-import { defineConfig } from 'tsup';
+import { defineConfig, Options } from 'tsup';
 
 interface PackageConfig {
   name: string;
+  entry?: string[];
+  external?: string[];
   noExternal?: string[];
-  splitting?: boolean;
   platform?: 'node' | 'browser';
-  format?: ('cjs' | 'esm')[];
-  dts?: {
-    resolve?: boolean;
-    entry?: Record<string, string>;
-  };
-  esbuildOptions?: (options: any) => void;
+  additionalOptions?: Partial<Options>;
 }
 
-export function createConfig(config: PackageConfig): any {
+export function createConfig(config: PackageConfig) {
+  const entry = config.entry ?? ['src/index.ts'];
+  const external = config.external ?? [];
+  const noExternal = config.noExternal ?? [];
+
   return defineConfig({
-    clean: true,
-    dts: true,
-    entry: ['src/index.ts'],
-    format: config.format ?? ['esm', 'cjs'],
-    minify: false,
-    sourcemap: true,
-    target: 'es2020',
-    noExternal: config.noExternal ?? [],
-    splitting: config.splitting ?? false,
-    treeshake: true,
+    entry,
+    format: ['esm'],
+    target: 'node18',
     platform: config.platform ?? 'node',
-    outDir: 'dist',
-    onSuccess: 'tsc --emitDeclarationOnly --declaration',
-    esbuildOptions: (options) => {
-      options.mainFields = ['module', 'main'];
-      options.conditions = ['import', 'require'];
-      if (config.esbuildOptions) {
-        config.esbuildOptions(options);
-      }
+    splitting: true,
+    sourcemap: true,
+    clean: true,
+    dts: {
+      entry,
+      resolve: true,
     },
+    treeshake: true,
+    minify: true,
+    external,
+    noExternal,
+    esbuildOptions(options) {
+      options.mainFields = ['module', 'main'];
+      options.conditions = ['import'];
+    },
+    ...config.additionalOptions,
   });
 }

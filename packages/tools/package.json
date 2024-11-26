@@ -3,18 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "default": "./dist/index.js"
     }
   },
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && tsup src/index.ts --format esm,cjs",
+    "build": "tsup",
     "clean": "rimraf dist .turbo",
     "dev": "tsup --watch",
     "lint": "eslint src --ext .ts,.tsx",

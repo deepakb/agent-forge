@@ -1,24 +1,29 @@
 {
-  "name": "advanced-workflow-example",
+  "name": "@examples/advanced-workflow",
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
-    "build": "tsup --config tsup.config.ts",
-    "start": "node --experimental-specifier-resolution=node dist/index.js",
-    "dev": "tsup --config tsup.config.ts --watch"
+    "build": "tsup",
+    "clean": "rimraf dist .turbo",
+    "dev": "tsup --watch",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts,.tsx"
   },
   "dependencies": {
     "@agent-forge/core": "workspace:*",
     "@agent-forge/llm-providers": "workspace:*",
     "@agent-forge/tools": "workspace:*",
     "@agent-forge/utils": "workspace:*",
-    "axios": "^1.7.7",
-    "dotenv": "16.4.5"
+    "dotenv": "^16.4.4"
   },
   "devDependencies": {
-    "@types/node": "^22.9.0",
-    "tsup": "^8.3.5",
-    "typescript": "^5.6.3"
+    "@types/node": "^20.11.19",
+    "rimraf": "^5.0.5",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3"
   }
 }
