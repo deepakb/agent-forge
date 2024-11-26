@@ -1,5 +1,5 @@
 import { Logger, LogManager } from '@core/logging';
-import { Tool, ToolContext, ToolResult, ToolError } from './types';
+import { ToolContext, ToolResult, ToolError } from './types';
 import { defaultToolRegistry } from './tool-registry';
 
 export class ToolExecutor {

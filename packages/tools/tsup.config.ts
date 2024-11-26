@@ -1,8 +1,8 @@
-const { createConfig } = require('../tsup.config.base');
-const path = require('path');
+import { createConfig } from '../tsup.config.base';
+import path from 'path';
 
 // Tools package configuration
-module.exports = createConfig({
+export default createConfig({
   name: '@agent-forge/tools',
   noExternal: ['@agent-forge/core', '@agent-forge/utils'],
   splitting: false,
@@ -14,12 +14,7 @@ module.exports = createConfig({
       index: 'src/index.ts'
     }
   },
-  esbuildOptions(options: { 
-    mainFields?: string[];
-    conditions?: string[];
-    alias: Record<string, string>;
-    footer?: { js: string };
-  }) {
+  esbuildOptions(options) {
     // Common module resolution
     options.mainFields = ['module', 'main'];
     options.conditions = ['import', 'require'];

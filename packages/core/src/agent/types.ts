@@ -1,4 +1,3 @@
-import { Logger } from '../logging/logger';
 import { Context } from '../context/types';
 
 export interface AgentAction {

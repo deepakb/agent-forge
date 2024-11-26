@@ -1,30 +1,23 @@
-const { createConfig } = require('../tsup.config.base');
-const path = require('path');
+import { createConfig } from '../tsup.config.base';
+import path from 'path';
 
 // Core package configuration
-module.exports = createConfig({
+export default createConfig({
   name: '@agent-forge/core',
   noExternal: [],
-  splitting: false, // Core package should be bundled as a single file
+  splitting: false,
   platform: 'node',
-  format: ['cjs', 'esm'], // Support both CommonJS and ESM
+  format: ['cjs', 'esm'],
   dts: {
     resolve: true,
     entry: {
       index: 'src/index.ts'
     }
   },
-  esbuildOptions(options: { 
-    mainFields: string[];
-    conditions: string[];
-    alias: Record<string, string>;
-    footer?: { js: string };
-  }) {
-    // Common module resolution
+  esbuildOptions(options) {
     options.mainFields = ['module', 'main'];
     options.conditions = ['import', 'require'];
     
-    // Path aliases
     options.alias = {
       '@core': path.resolve(__dirname, './src')
     };
