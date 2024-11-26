@@ -1,60 +1,39 @@
-import type { Options, Format } from 'tsup';
-import path from 'path';
+import { defineConfig } from 'tsup';
 
-export const BuildFormat = {
-  CJS: 'cjs',
-  ESM: 'esm'
-} as const;
-
-export type BuildFormat = typeof BuildFormat[keyof typeof BuildFormat];
-
-export interface BuildConfig extends Options {
-  name?: string;
-  external?: string[];
+interface PackageConfig {
+  name: string;
   noExternal?: string[];
+  splitting?: boolean;
+  platform?: 'node' | 'browser';
+  format?: ('cjs' | 'esm')[];
+  dts?: {
+    resolve?: boolean;
+    entry?: Record<string, string>;
+  };
+  esbuildOptions?: (options: any) => void;
 }
 
-export function createConfig(options: Partial<BuildConfig> = {}): BuildConfig {
-  const isProduction = process.env.NODE_ENV === 'production';
-
-  const config: BuildConfig = {
+export function createConfig(config: PackageConfig): any {
+  return defineConfig({
     clean: true,
     dts: true,
-    format: ['cjs', 'esm'],
-    minify: isProduction,
-    sourcemap: true,
-    splitting: false,
-    treeshake: true,
-    target: 'es2020',
-    outDir: 'dist',
     entry: ['src/index.ts'],
-    platform: 'node',
-    shims: true,
-    skipNodeModulesBundle: true,
-    keepNames: true,
-    env: {
-      NODE_ENV: process.env.NODE_ENV || 'development'
+    format: config.format ?? ['esm', 'cjs'],
+    minify: false,
+    sourcemap: true,
+    target: 'es2020',
+    noExternal: config.noExternal ?? [],
+    splitting: config.splitting ?? false,
+    treeshake: true,
+    platform: config.platform ?? 'node',
+    outDir: 'dist',
+    onSuccess: 'tsc --emitDeclarationOnly --declaration',
+    esbuildOptions: (options) => {
+      options.mainFields = ['module', 'main'];
+      options.conditions = ['import', 'require'];
+      if (config.esbuildOptions) {
+        config.esbuildOptions(options);
+      }
     },
-    ...options,
-    esbuildOptions(opts, ctx) {
-      opts.mainFields = ['module', 'main'];
-      opts.conditions = ['import', 'require'];
-      
-      opts.footer = {
-        js: 'if (exports.default) module.exports = exports.default;'
-      };
-      
-      if (isProduction) {
-        opts.minify = true;
-        opts.legalComments = 'none';
-        opts.drop = ['console', 'debugger'];
-      }
-
-      if (options.esbuildOptions) {
-        options.esbuildOptions(opts, ctx);
-      }
-    }
-  };
-
-  return config;
+  });
 }

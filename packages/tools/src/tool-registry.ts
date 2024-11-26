@@ -1,4 +1,4 @@
-import { Logger, LogManager } from '@core/logging';
+import { defaultLogger, type Logger } from '@agent-forge/core';
 import { Tool, ToolError } from './types';
 
 export class ToolRegistry {
@@ -6,7 +6,7 @@ export class ToolRegistry {
   private logger: Logger;
 
   constructor() {
-    this.logger = LogManager.createLogger('console');
+    this.logger = defaultLogger;
   }
 
   register(tool: Tool): void {

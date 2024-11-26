@@ -1,5 +1,5 @@
 import { Tool, ToolContext, ToolResult, ToolConfig } from './types';
-import { Logger } from '@core/logging';
+import { defaultLogger, type Logger } from '@agent-forge/core';
 
 export abstract class BaseTool implements Tool {
   public readonly name: string;
@@ -7,11 +7,11 @@ export abstract class BaseTool implements Tool {
   public readonly category: string | undefined;
   protected logger: Logger;
 
-  constructor(config: ToolConfig, logger: Logger) {
+  constructor(config: ToolConfig) {
     this.name = config.name;
     this.description = config.description;
     this.category = config.category;
-    this.logger = logger;
+    this.logger = defaultLogger;
   }
 
   abstract execute(context: ToolContext): Promise<ToolResult>;

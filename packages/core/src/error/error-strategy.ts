@@ -41,7 +41,7 @@ abstract class BaseErrorStrategy implements ErrorStrategy {
  * Default Error Strategy for logging errors.
  */
 export class LogErrorStrategy extends BaseErrorStrategy {
-  shouldHandle(error: BaseError): boolean {
+  shouldHandle(): boolean {
     // Log all errors (customize logic as needed)
     return true;
   }
@@ -78,6 +78,7 @@ export class NotifyErrorStrategy extends BaseErrorStrategy {
 export class RetryErrorStrategy extends BaseErrorStrategy {
   private maxRetries: number;
   private currentRetry: number = 0;
+  private operation: (() => Promise<void>) | null = null;
 
   constructor(maxRetries: number = 3, config?: any) {
     super('console', config);
@@ -88,7 +89,11 @@ export class RetryErrorStrategy extends BaseErrorStrategy {
     return error.code === 'NETWORK_ERROR' && this.currentRetry < this.maxRetries;
   }
 
-  handle(error: BaseError): void {
+  setOperation(operation: () => Promise<void>): void {
+    this.operation = operation;
+  }
+
+  async handle(error: BaseError): Promise<void> {
     this.currentRetry++;
     this.logger.log('WARN', `Retry attempt ${this.currentRetry}/${this.maxRetries}`, {
       error: error.message,
@@ -99,21 +104,30 @@ export class RetryErrorStrategy extends BaseErrorStrategy {
 
     if (this.currentRetry === this.maxRetries) {
       this.logError('ERROR', error);
+      return;
     }
+
+    if (!this.operation) {
+      throw new Error('No operation set for retry strategy');
+    }
+
+    const backoffTime = this._getBackoffTime();
+    this.logger.log('INFO', `Waiting ${backoffTime}ms before retry attempt ${this.currentRetry}`);
     
-    // Implement retry logic here
-    // For example:
-    // setTimeout(() => this.retryOperation(), this.getBackoffTime());
+    await new Promise(resolve => setTimeout(resolve, backoffTime));
+    await this.operation();
   }
 
-  private getBackoffTime(): number {
-    // Implement exponential backoff
-    return Math.min(1000 * Math.pow(2, this.currentRetry - 1), 10000);
+  private _getBackoffTime(): number {
+    // Implement exponential backoff with jitter
+    const base = Math.min(1000 * Math.pow(2, this.currentRetry - 1), 10000);
+    const jitter = Math.random() * 1000;
+    return base + jitter;
   }
 
-  // Reset retry counter when needed
   reset(): void {
     this.currentRetry = 0;
+    this.operation = null;
   }
 }
 

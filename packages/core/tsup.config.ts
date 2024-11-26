@@ -1,25 +1,12 @@
-import { createConfig } from '../tsup.config.base';
-import path from 'path';
+import { defineConfig } from 'tsup';
 
-// Core package configuration
-export default createConfig({
-  name: '@agent-forge/core',
-  noExternal: [],
-  splitting: false,
-  platform: 'node',
-  format: ['cjs', 'esm'],
-  dts: {
-    resolve: true,
-    entry: {
-      index: 'src/index.ts'
-    }
-  },
-  esbuildOptions(options) {
-    options.mainFields = ['module', 'main'];
-    options.conditions = ['import', 'require'];
-    
-    options.alias = {
-      '@core': path.resolve(__dirname, './src')
-    };
-  }
+export default defineConfig({
+  entry: ['src/index.ts', 'src/logging/index.ts'],
+  format: ['esm', 'cjs'],
+  dts: false,
+  sourcemap: true,
+  clean: false,
+  target: 'es2020',
+  outDir: 'dist',
+  noExternal: ['@agent-forge/utils']
 });

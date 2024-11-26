@@ -1,30 +1,25 @@
 {
-    "extends": "../tsconfig.base.json",
-    "compilerOptions": {
-      "rootDir": "./src",
-      "outDir": "./dist",
-      "baseUrl": ".",
-      "composite": true,
-      "tsBuildInfoFile": "./dist/.tsbuildinfo",
-      "paths": {
-        "@core/*": ["../core/src/*"],
-        "@utils/*": ["../utils/src/*"]
-      }
-    },
-   "include": ["src/**/*"],
-    "exclude": [
-      "node_modules",
-      "dist",
-      "**/*.test.ts",
-      "**/*.spec.ts",
-      "**/*.stories.ts",
-      "**/__tests__/*",
-      "**/coverage",
-      "**/*.d.ts"
-    ],
-    "references": [
-      { "path": "../core" },
-      { "path": "../utils" }
-    ]
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "baseUrl": ".",
+    "composite": true,
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+    "paths": {
+      "@agent-forge/core": ["../core/src"],
+      "@agent-forge/core/*": ["../core/src/*"],
+      "@agent-forge/utils": ["../utils/src"],
+      "@agent-forge/utils/*": ["../utils/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.stories.ts",
+    "**/__tests__/*"
+  ]
 }
-  

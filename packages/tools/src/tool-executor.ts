@@ -1,4 +1,4 @@
-import { Logger, LogManager } from '@core/logging';
+import { defaultLogger, type Logger } from '@agent-forge/core';
 import { ToolContext, ToolResult, ToolError } from './types';
 import { defaultToolRegistry } from './tool-registry';
 
@@ -6,7 +6,7 @@ export class ToolExecutor {
   private logger: Logger;
 
   constructor() {
-    this.logger = LogManager.createLogger('console');
+    this.logger = defaultLogger;
   }
 
   async execute(toolName: string, context: ToolContext): Promise<ToolResult> {
